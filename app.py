@@ -34,12 +34,39 @@ def goodbye():
 def submit():
     name = request.form['name']
     message = request.form['message']
-    return f"Thanks {name}, you sent this message: {message}"
+    return f"Thanks {name}, you sent this message: \"{message}\""
 
 @app.route('/wave', methods=['GET'])
 def wave():
     name = request.args['name']
     return f"I am waving at {name}"
+
+@app.route('/count_vowels', methods=['POST'])
+def count_vowels():
+    text = request.form['text']
+    counter = 0
+    for letter in text:
+        if letter in 'aeiou':
+            counter += 1
+    return f"There are {counter} vowels in \"{text}\""
+
+@app.route('/sort-names', methods=['POST'])
+def sort_names():
+    names = request.form['names']
+    name_list = names.split(",")
+    sorted_list = sorted(name_list)
+    return ",".join(sorted_list)
+
+@app.route('/names', methods=['GET'])
+def names():
+    # Adds names from query parameters and returns all names in alphabetical order.
+    new_names = request.args['names']
+    current_names = ['Ben', 'Catherine','Zainab']
+    new_list = new_names.split(",")
+    current_names = current_names + new_list
+    final_names = sorted(current_names)
+    return ",".join(final_names)
+
 
 # This imports some more example routes for you to see how they work
 # You can delete these lines if you don't need them.
